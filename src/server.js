@@ -1,11 +1,11 @@
-const express = require("express");
-const app = express();
-app.use(express.json());
+require("dotenv").config();
+const app = require("./app");
+require("../config/db");
+const swaggerDocs = require("../swagger");
 
-app.use("/", require("./routes/auth"));
-//app.use("/", require("./routes/resource"));
-app.use("/", require("./routes/admin"));
-app.use("/", require("./routes/doctors"));
-app.use("/", require("./routes/patients"));
+const PORT = process.env.PORT;
 
-module.exports = app;
+app.listen(PORT, () => {
+  console.log(`Server is running on PORT: ${PORT}`);
+  swaggerDocs(app, PORT);
+});

@@ -4,7 +4,7 @@ const { validationResult } = require("express-validator");
 const User = require("../models/User");
 const Role = require("../models/Role");
 
-exports.register = async (req, res) => {
+const register = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -50,7 +50,7 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -86,4 +86,9 @@ exports.login = async (req, res) => {
     console.error(err.message);
     res.status(500).json({ success: false, message: `Server error: ${err}` });
   }
+};
+
+module.exports = {
+  login,
+  register,
 };
