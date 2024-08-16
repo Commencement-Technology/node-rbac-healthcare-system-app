@@ -42,7 +42,7 @@ const register = async (req, res) => {
       { expiresIn: "1h" },
       (err, token) => {
         if (err) throw err;
-        res.json({ success: true, token, user });
+        res.status(201).json({ success: true, token, user });
       }
     );
   } catch (err) {

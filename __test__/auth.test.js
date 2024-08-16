@@ -9,52 +9,91 @@ jest.mock("../src/models/Role");
 
 process.env.JWT_SECRET = "test-secret-key";
 
-describe("POST /login", () => {
-  const mockUserId = new mongoose.Types.ObjectId();
-  const mockRoleId = new mongoose.Types.ObjectId();
+const mockUserId = new mongoose.Types.ObjectId();
+const mockRoleId = new mongoose.Types.ObjectId();
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it("should return 200 if user exists and credentials are valid", async () => {
-    Role.findOne.mockResolvedValue({
-      _id: mockRoleId,
-      name: "patient",
-      permissions: ["read", "write"],
-    });
-
+describe("Auth Controller", () => {
+  const mockFindUser = (user) => {
     User.findOne.mockReturnValue({
-      populate: jest.fn().mockResolvedValue({
-        _id: mockUserId,
-        email: "a@gmail.com",
-        password:
-          "$2a$10$u8NnSBFscUu0h1JBPfEqqemOls16L7fI6DqLqMg6lnXpKZFTNqzUe",
-        role: {
-          _id: mockRoleId,
-          name: "patient",
-        },
-      }),
+      populate: jest.fn().mockResolvedValue(user),
     });
+  };
 
-    const res = await supertest(app).post("/login").send({
+  describe("POST /login", () => {
+    const mockUser = {
+      _id: mockUserId,
       email: "ali@gmail.com",
-      password: "123456",
+      password: "$2a$10$u8NnSBFscUu0h1JBPfEqqemOls16L7fI6DqLqMg6lnXpKZFTNqzUe", // bcrypt hash for "123456"
+      role: {
+        _id: mockRoleId,
+        name: "patient",
+      },
+    };
+
+    beforeEach(() => {
+      jest.clearAllMocks();
     });
 
-    expect(res.status).toBe(200);
+    it("should return 200 if user exists and credentials are valid", async () => {
+      mockFindUser(mockUser);
+
+      const res = await supertest(app).post("/login").send({
+        email: mockUser.email,
+        password: "123456",
+      });
+
+      expect(res.status).toBe(200);
+      expect(res.body.user.email).toEqual(mockUser.email);
+    });
+
+    it("should return 404 if user does not exist", async () => {
+      mockFindUser(null);
+
+      const res = await supertest(app).post("/login").send({
+        email: "nonexistent@gmail.com",
+        password: "123456",
+      });
+
+      expect(res.status).toBe(400);
+    });
+
+    it("should return 400 if the email or password fields are left blank", async () => {
+      mockFindUser(mockUser);
+
+      const res1 = await supertest(app).post("/login").send({
+        email: "nonexistent@gmail.com",
+      });
+
+      expect(res1.status).toBe(400);
+
+      const res2 = await supertest(app).post("/login").send({
+        password: "123456",
+      });
+
+      expect(res2.status).toBe(400);
+    });
   });
 
-  it("should return 400 if user does not exist", async () => {
-    User.findOne.mockReturnValue({
-      populate: jest.fn().mockResolvedValue(null),
-    });
-
-    const res = await supertest(app).post("/login").send({
-      email: "nonexistent@gmail.com",
+  describe("POST /register", () => {
+    const mockUser = {
+      username: "talha",
+      email: "talha@gmail.com",
       password: "123456",
-    });
+      roleName: "patient",
+    };
 
-    expect(res.status).toBe(400);
+    const mockRole = {
+      _id: new mongoose.Types.ObjectId(),
+      name: "patient",
+    };
+
+    it("should return 201 if user is created successfully", async () => {
+      User.findOne.mockResolvedValue(null); // No existing user
+      Role.findOne.mockResolvedValue(mockRole);
+      User.prototype.save = jest.fn().mockResolvedValue(mockUser);
+      const res = await supertest(app).post("/register").send(mockUser);
+
+      expect(res.status).toBe(201);
+    });
   });
 });
