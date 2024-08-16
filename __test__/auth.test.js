@@ -95,5 +95,18 @@ describe("Auth Controller", () => {
 
       expect(res.status).toBe(201);
     });
+
+    it("should return 400 if user already exist", async () => {
+      User.findOne.mockResolvedValue(mockUser);
+      Role.findOne.mockResolvedValue(mockRole);
+
+      const res = await supertest(app).post("/register").send(mockUser);
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({
+        success: false,
+        message: "User already exists",
+      });
+    });
   });
 });
