@@ -6,6 +6,40 @@ const {
 } = require("../middlewares/validators/adminValidator");
 const { verifyAuth, checkPermissions } = require("../middlewares/auth");
 
+/**
+ * @openapi
+ * '/admin/users':
+ *  get:
+ *     tags:
+ *     - Admin
+ *     summary: Get all users
+ *     security:
+ *      - bearerAuth: []
+ *     responses:
+ *      200:
+ *        description: A list of users
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                type: object
+ *                properties:
+ *                  id:
+ *                    type: string
+ *                  username:
+ *                    type: string
+ *                  email:
+ *                    type: string
+ *                  role:
+ *                    type: string
+ *      403:
+ *        description: Forbidden - Insufficient permissions
+ *      401:
+ *        description: Unauthorized
+ *      500:
+ *        description: Server Error
+ */
 router.get(
   "/admin/users",
   verifyAuth,
@@ -13,6 +47,34 @@ router.get(
   getAllUsers
 );
 
+/**
+ * @openapi
+ * '/admin/users/{userId}':
+ *  delete:
+ *     tags:
+ *     - Admin
+ *     summary: Delete a user
+ *     security:
+ *      - bearerAuth: []
+ *     parameters:
+ *      - name: userId
+ *        in: path
+ *        required: true
+ *        description: ID of the user to delete
+ *        schema:
+ *          type: string
+ *     responses:
+ *      200:
+ *        description: User deleted successfully
+ *      403:
+ *        description: Forbidden - Insufficient permissions
+ *      404:
+ *        description: User not found
+ *      401:
+ *        description: Unauthorized
+ *      500:
+ *        description: Server Error
+ */
 router.delete(
   "/admin/users/:userId",
   verifyAuth,
