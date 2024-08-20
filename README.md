@@ -1,5 +1,5 @@
 # Role Based Access Control (RBAC) Healthcare System
-The "rbac-healthcare-system" repository is a Node.js project that implements Role-Based Access Control (RBAC) for healthcare, defining roles like admin, doctor, and patient with specific permissions. It features JWT authentication, MongoDB integration, and a modular architecture with controllers, routes, and models. Unit tests are included to ensure reliability.
+The "rbac-healthcare-system" repository is a Node.js project that implements Role-Based Access Control (RBAC) for healthcare system, defining roles like admin, doctor, and patient with specific permissions. It features JWT authentication, MongoDB integration, and a modular architecture with controllers, routes, and models. Unit tests are included to ensure reliability.
 
 ## Features
 <img width="1454" alt="Screenshot 2024-08-20 at 16 03 56" src="https://github.com/user-attachments/assets/b77ff948-428d-45f8-9faf-de8def2ef349">
