@@ -10,7 +10,7 @@ const register = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { username, email, password, roleName } = req.body;
+  const { username, email, password, role } = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -20,8 +20,8 @@ const register = async (req, res) => {
         .json({ success: false, message: "User already exists" });
     }
 
-    const role = await Role.findOne({ name: roleName });
-    if (!role) {
+    const userRole = await Role.findOne({ name: role });
+    if (!userRole) {
       return res
         .status(400)
         .json({ success: false, message: "Role does not exist" });
@@ -31,7 +31,7 @@ const register = async (req, res) => {
       username,
       email,
       password: await bcrypt.hash(password, 10),
-      role: role._id,
+      role: userRole._id,
     });
 
     await user.save();
@@ -46,7 +46,10 @@ const register = async (req, res) => {
       }
     );
   } catch (err) {
-    res.status(500).json({ success: false, message: `Error server: ${err}` });
+    res.status(500).json({
+      success: false,
+      message: `Error server in registerController: ${err}`,
+    });
   }
 };
 

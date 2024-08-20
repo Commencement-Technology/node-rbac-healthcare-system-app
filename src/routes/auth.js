@@ -23,6 +23,7 @@ const {
  *              - username
  *              - email
  *              - password
+ *              - role
  *            properties:
  *              username:
  *                type: string
@@ -33,6 +34,9 @@ const {
  *              password:
  *                type: string
  *                default: johnDoe20!@
+ *              role:
+ *                type: string
+ *                default: patient
  *     responses:
  *      201:
  *        description: User created successfully

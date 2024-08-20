@@ -12,7 +12,7 @@ const validateRegister = [
     "password",
     "Please enter a password with 6 or more characters"
   ).isLength({ min: 6 }),
-  body("roleName", "Role is required").not().isEmpty(),
+  body("role", "Role is required").not().isEmpty(),
 ];
 
 module.exports = {

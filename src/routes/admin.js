@@ -7,7 +7,7 @@ const { verifyAuth, checkPermissions } = require("../middlewares/auth");
 router.get(
   "/admin/users",
   verifyAuth,
-  checkPermissions(["read_all"]),
+  checkPermissions(["read_users"]),
   getAllUsers
 );
 
