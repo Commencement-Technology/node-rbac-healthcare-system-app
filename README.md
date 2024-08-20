@@ -4,6 +4,9 @@ The "rbac-healthcare-system" repository is a Node.js project that implements Rol
 ## Features
 <img width="1454" alt="Screenshot 2024-08-20 at 16 03 56" src="https://github.com/user-attachments/assets/b77ff948-428d-45f8-9faf-de8def2ef349">
 
+***To view the Swagger UI schema, navigate to `http://localhost:3000/api-docs` in your browser after running the server.***
+
+
 ## Technologies Used
 
 - ***Node.js:*** Backend runtime environment.
