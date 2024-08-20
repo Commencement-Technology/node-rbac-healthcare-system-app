@@ -11,7 +11,7 @@ const { verifyAuth, checkPermissions } = require("../middlewares/auth");
  * '/admin/users':
  *  get:
  *     tags:
- *     - Admin
+ *     - /admin
  *     summary: Get all users
  *     security:
  *      - bearerAuth: []
@@ -52,7 +52,7 @@ router.get(
  * '/admin/users/{userId}':
  *  delete:
  *     tags:
- *     - Admin
+ *     - /admin
  *     summary: Delete a user
  *     security:
  *      - bearerAuth: []
