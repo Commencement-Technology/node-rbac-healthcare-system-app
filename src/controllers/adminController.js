@@ -6,7 +6,11 @@ const getAllUsers = async (req, res) => {
 
     res.status(200).json({ success: true, data: allUsers });
   } catch (err) {
-    res.status(500).json({ success: false, message: `Server error: ${err}` });
+    res.status(500).json({
+      success: false,
+      message: "An error occured while getting all users",
+      error: err.message,
+    });
   }
 };
 
@@ -30,7 +34,7 @@ const deleteUser = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "An error occurred while deleting the user",
+      message: "An error occurred while deleting a user",
       error: err.message,
     });
   }

@@ -51,7 +51,11 @@ const createAppointment = async (req, res) => {
       data: newAppointment,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Server error", error });
+    res.status(500).json({
+      success: false,
+      message: "An error occured while creating an appointment",
+      error: err.message,
+    });
   }
 };
 
@@ -77,7 +81,11 @@ const getAppointmentsByPatientId = async (req, res) => {
 
     res.status(200).json({ success: true, data: appointments });
   } catch (err) {
-    res.status(500).json({ success: false, message: `Server error: ${err}` });
+    res.status(500).json({
+      ssuccess: false,
+      message: "An error occured while getting appointments by patient id",
+      error: err.message,
+    });
   }
 };
 
@@ -96,7 +104,11 @@ const getRecordsByPatientId = async (req, res) => {
 
     res.status(200).json({ success: true, data: records });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Server Error", err });
+    res.status(500).json({
+      success: false,
+      message: "An error occured while getting all records by patient id",
+      error: err.message,
+    });
   }
 };
 
@@ -128,8 +140,8 @@ const writeRecord = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "Server Error",
-      err,
+      message: "An error occured while writing medical records",
+      error: err.message,
     });
   }
 };

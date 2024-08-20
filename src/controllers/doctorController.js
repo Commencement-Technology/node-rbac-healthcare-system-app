@@ -27,7 +27,11 @@ const getAppointmentsByDoctorId = async (req, res) => {
       .status(200)
       .json({ success: true, appointmentsCount, data: appointments });
   } catch (err) {
-    res.status(500).json({ success: false, message: `Server error: ${err}` });
+    res.status(500).json({
+      success: false,
+      message: "An error occured while getting appointments by doctor id",
+      error: err.message,
+    });
   }
 };
 
@@ -48,7 +52,12 @@ const getAllPatientsByDoctorId = async (req, res) => {
 
     res.status(200).json({ success: true, data: patients });
   } catch (err) {
-    res.status(500).json({ success: false, message: `Server error: ${err}` });
+    res.status(500).json({
+      success: false,
+      message:
+        "An error occured while getting all patients assigned to a doctor",
+      error: err.message,
+    });
   }
 };
 

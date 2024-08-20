@@ -48,7 +48,8 @@ const register = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: `Error server in registerController: ${err}`,
+      message: `An error occured while registering a user`,
+      error: err.message,
     });
   }
 };
@@ -87,7 +88,11 @@ const login = async (req, res) => {
     );
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ success: false, message: `Server error: ${err}` });
+    res.status(500).json({
+      success: false,
+      message: `An error occured while logging in a user`,
+      error: err.message,
+    });
   }
 };
 
